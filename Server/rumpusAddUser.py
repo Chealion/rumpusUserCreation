@@ -2,7 +2,7 @@
 
 This program adds a user to the Rumpus Database.
 
-Usage: /opt/local/bin/python2.5 rumpusAddUser.py "Email Address" "USERNAME" "PASSWORD"
+Usage: /PATH/TO/python2.5 rumpusAddUser.py "Email Address" "USERNAME" "PASSWORD"
 or
 Usage: rumpusAddUser.py --check "USERNAME"
 
@@ -16,7 +16,7 @@ Usage: rumpusAddUser.py --check "USERNAME"
 # 2 User already exists
 # 3 Unable to reload Database
 
-Made for Python 2.5.4
+Made for Python 2.5.x
 
 Version History:
 
@@ -123,13 +123,16 @@ def emailUser(email, username, password):
 # Email whomever made the account with the account details
 	
 	#Get login link
+	#CHANGE NEXT LINE
 	websiteLoginLink = "http://www.DOMAIN HERE:8080/?login=" + username + ":" + password
+	#CHANGE NEXT LINE
 	ftpLoginLink = "ftp://" + username + ":" + password + "@FTP_SITE_HERE"
 	
-	# **** CHANGE
 	#Set up headers first
+	#CHANGE NEXT LINE
 	message = "From: SENDING@ADDRESS\r\nSubject: FTP Account Created\r\nTo: " + email + "\r\n\r\n"
 	
+	#CHANGE NEXT LINE: Obviously read the following text for the email and change accordingly. eg. Change FTP_SERVER to your FTP_SERVER's address (eg. ftp.example.edu)
 	message += """
 Hi,
 
@@ -149,7 +152,7 @@ To access the files available for this account you may use one of the following 
 	Use this link to log you in directly: < """ + ftpLoginLink + """ >
 	or manually enter the following details:
 	Server: FTP_SERVER
-	Username and password from above	
+	Username and password from above	"""
 	# Send the email - we are not handling any exceptions because of our static environment
 	conn = smtplib.SMTP('MAIL SERVER HERE', '25')
 	conn.sendmail('SENDING ADDRESS', [email, 'BCC EMAIL ADDRESS'], message)
@@ -159,8 +162,8 @@ To access the files available for this account you may use one of the following 
 
 def printDetails(username, password):
 # Write out details
-
- 	print username + "\n" + password + "\n" + "\n afp://AFP_SERVEr/client_site/" + username
+#CHANGE NEXT LINE
+ 	print username + "\n" + password + "\n" + "\n afp://AFP_SERVER/client_site/" + username
 
 ########################
 
@@ -214,6 +217,7 @@ def reloadURL(SERVER, PORT, RELOAD_URL):
 
 def main(argv):
 	RUMPUS_PATH = "/usr/local/Rumpus/Rumpus.users"
+	#CHANGE THE FOLLOWING NEXT 4 LINES AS THEY APPLY.
 	SERVER = "SERVER_DOMAIN"
 	PORT = "8080"
 	RELOAD_URL = "/reloadUserDB" #SERVER_DOMAIN/RELOAD_URL
@@ -231,6 +235,7 @@ def main(argv):
 	elif len(argv) < 4:
 		argv.append("")
 	
+	#CHANGE NEXT LINE (DOMAIN to your DOMAIN eg. example.edu for user@example.edu)
 	EMAIL = argv[1] + "@DOMAIN"
 	username = argv[2]
 	password = argv[3]

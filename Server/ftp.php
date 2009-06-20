@@ -46,7 +46,8 @@ else
 $users = array("fill", "in", "user", "names", "here");
 
 function rumpusVersion() {
-	$cmd = "/opt/local/bin/python2.5 /Volumes/MailRAID/websites/jmg/internalapps/rumpusAddUser.py --version";
+	// **** CHANGE
+	$cmd = "/PATH/TO/python2.5 /Volumes/MailRAID/websites/jmg/internalapps/rumpusAddUser.py --version";
 	exec($cmd, $rumpusVersion);
 	return $rumpusVersion[0];
 }
