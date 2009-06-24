@@ -21,14 +21,11 @@ $version = "1.0.4";
 //If this has been submitted:
 if(isset($_POST["submission"])) {
 	//Do things for submission
-	$emailAddress = $_POST["emailAddress"];
-	$username = $_POST["username"];
-	$password = $_POST["password"];
 	$output = "";
 	$return = 0;
 	
 	// **** CHANGE
-	$cmd = "/PATH/TO/python2.5 /PATH/TO/rumpusAddUser.py \"$emailAddress\" \"$username\" \"$password\"";
+	$cmd = "/PATH/TO/python2.5 /PATH/TO/rumpusAddUser.py \"" . $_POST["emailAddress"] . "\" \"" . $_POST["username"] . "\" \" " . $_POST["password"] . "\"";
 	exec($cmd, &$output, &$return);
 	
 	//Split $output into pieces:
@@ -282,7 +279,7 @@ function rumpusVersion() {
 					$details = "<pre>Username: " . $createdUsername . "\nPassword: " . $createdPassword . "\n" . "</pre><br />" . "<div id=\"AFPURL\">" . $createdAFPURL . "</div>";
 				}
 				
-				print "<div id=\"infoBox\"><p>Created! Please check your email for the username and password details.</p>" . $details . "</div>";
+				echo '<div id=\"infoBox\"><p>Created! Please check your email for the username and password details.</p>' , $details , '</div>';
 			}
 			
 			?>
@@ -296,13 +293,13 @@ function rumpusVersion() {
 
 							//Select Usernames
 							if($username == "")
-								echo "<option selected=\"selected\">Choose Email Address</option>";
+								echo '<option selected=\"selected\">Choose Email Address</option>';
 
 							foreach($users as $user) {
 								if($user == $username)
-									echo "<option selected=\"selected\">$user</option>";
+									echo '<option selected=\"selected\">', $user, '</option>';
 								else
-									echo "<option>$user</option>";
+									echo '<option>',$user,'</option>';
 							}
 
 						?>
