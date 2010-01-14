@@ -276,10 +276,10 @@ function rumpusVersion() {
 			
 			if(isset($_POST["submission"])) {
 				if(isset($output)) {
-					$details = "<pre>Username: " . $createdUsername . "\nPassword: " . $createdPassword . "\n" . "</pre><br />" . "<div id=\"AFPURL\">" . $createdAFPURL . "</div>";
+					$details = '<pre>Username: ' . $createdUsername . "\nPassword: " . $createdPassword . "\n" . '</pre><br /><div id="AFPURL">' . $createdAFPURL . '</div>';
 				}
 				
-				echo '<div id=\"infoBox\"><p>Created! Please check your email for the username and password details.</p>' , $details , '</div>';
+				echo '<div id="infoBox"><p>Created! Please check your email for the username and password details.</p>' , $details , '</div>';
 			}
 			
 			?>
@@ -293,13 +293,13 @@ function rumpusVersion() {
 
 							//Select Usernames
 							if($username == "")
-								echo '<option selected=\"selected\">Choose Email Address</option>';
+								echo '<option selected="selected">Choose Email Address</option>';
 
 							foreach($users as $user) {
 								if($user == $username)
-									echo '<option selected=\"selected\">', $user, '</option>';
+									echo '<option selected="selected">', $user, '</option>';
 								else
-									echo '<option>',$user,'</option>';
+									echo '<option>', $user, '</option>';
 							}
 
 						?>
