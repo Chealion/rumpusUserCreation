@@ -20,6 +20,7 @@ Made for Python 2.5.x
 
 Version History:
 
+1.2.0		Emails now sent as HTML/Text to help alleviate issues with punctuation in links
 1.1.6		Fix issue with submitting with a password would fail.
 1.1.5		Add version output
 			Fix spacing of email
@@ -36,11 +37,11 @@ Version History:
 1.0.0		Initial Release
 
 """
-version = "1.1.6"
+version = "1.2.0"
 __author__ = "Micheal Jones (michealj@joemedia.tv)"
-__version__ = "$Revision: 1.1.6 $"
-__date__ = "$Date: 2009/06/09 $"
-__copyright__ = "Copyright (c) 2009 Micheal Jones"
+__version__ = "$Revision: 1.2.0 $"
+__date__ = "$Date: 2009/01/14 $"
+__copyright__ = "Copyright (c) 2010 Micheal Jones"
 __license__ = "BSD"
 
 import sys
@@ -130,29 +131,35 @@ def emailUser(email, username, password):
 	
 	#Set up headers first
 	#CHANGE NEXT LINE
-	message = "From: SENDING@ADDRESS\r\nSubject: FTP Account Created\r\nTo: " + email + "\r\n\r\n"
+	message = "Content-Transfer-Encoding: quoted-printable\r\nContent-Type: text/html\r\nFrom:"
+	message += "SENDING@ADDRESS\r\nSubject: FTP Account Created\r\nTo: " + email + "\r\n\r\n"
 	
 	#CHANGE NEXT LINE: Obviously read the following text for the email and change accordingly. eg. Change FTP_SERVER to your FTP_SERVER's address (eg. ftp.example.edu)
 	message += """
-Hi,
+	<p>Hi,<br><br>
 
-A new FTP account has been created on the  FTP server for you.
+	A new FTP account has been created on the Joe Media FTP server for you.</p>
 
-Your Username is: """ + username + """
-Your Password is: """ + password + """
+	<p>Your Username is: """ + username + """<br>
+	Your Password is: """ + password + """</p>
 
-To access the files available for this account you may use one of the following options:
+	<p>To access the files available for this account you may use one of the following options:</p>
 
-1) Use our website
-	Use this link to access the Client Site and be logged in automatically: < """ + websiteLoginLink + """ >
-	or
-	Go to http://DOMAIN/ and click on the client login section on the top menu bar where you may enter your username and password.
+	<ol style="margin: 0; padding-left: 15px">
+	<li>Use our website<br>
+		Use this link to access the Client Site and be logged in automatically: < <a href=\"""" + websiteLoginLink + "\">" + websiteLoginLink + """</a> ><br>
+		Or<br>
+		and click on the client login section on the top menu bar where you may enter your username and password.</li><br>
 
-2) Use a FTP client
-	Use this link to log you in directly: < """ + ftpLoginLink + """ >
-	or manually enter the following details:
+	<li>Use a FTP client<br>
+		Use this link to log you in directly: < <a href=\"""" + ftpLoginLink + "\">" + ftpLoginLink + """</a> ><br><br>
+
+		Or manually enter the following details:<br>
 	Server: FTP_SERVER
-	Username and password from above	"""
+	Username and password from above</li>
+	</ol>
+
+	Thanks!"""
 	# Send the email - we are not handling any exceptions because of our static environment
 	conn = smtplib.SMTP('MAIL SERVER HERE', '25')
 	conn.sendmail('SENDING ADDRESS', [email, 'BCC EMAIL ADDRESS'], message)
@@ -224,12 +231,11 @@ def main(argv):
 	CLIENT_PATH = "/PATH/TO/WHERE/THE/FOLDERS/ARE/STORED"
 	
 	#Check if arguments are valid
-	
-	if argv[1] == "--version":
-		displayVersion()
-		exit(0)
-	
 	if len(argv) < 3:
+		if len(argv) > 1:
+			if argv[1] == "--version":
+				displayVersion()
+				exit(0)
 		usage(1)
 		exit(1)
 	elif len(argv) < 4:
