@@ -20,6 +20,7 @@ Made for Python 2.5.x
 
 Version History:
 
+1.2.1		Fix issue for usernames that started with [A-Fa-f]
 1.2.0		Emails now sent as HTML/Text to help alleviate issues with punctuation in links
 1.1.6		Fix issue with submitting with a password would fail.
 1.1.5		Add version output
@@ -37,9 +38,9 @@ Version History:
 1.0.0		Initial Release
 
 """
-version = "1.2.0"
+version = "1.2.1"
 __author__ = "Micheal Jones (michealj@joemedia.tv)"
-__version__ = "$Revision: 1.2.0 $"
+__version__ = "$Revision: 1.2.1 $"
 __date__ = "$Date: 2009/01/14 $"
 __copyright__ = "Copyright (c) 2010 Micheal Jones"
 __license__ = "BSD"
@@ -131,7 +132,7 @@ def emailUser(email, username, password):
 	
 	#Set up headers first
 	#CHANGE NEXT LINE
-	message = "Content-Transfer-Encoding: quoted-printable\r\nContent-Type: text/html\r\nFrom:"
+	message = "Content-Type: text/html\r\nFrom:"
 	message += "SENDING@ADDRESS\r\nSubject: FTP Account Created\r\nTo: " + email + "\r\n\r\n"
 	
 	#CHANGE NEXT LINE: Obviously read the following text for the email and change accordingly. eg. Change FTP_SERVER to your FTP_SERVER's address (eg. ftp.example.edu)
