@@ -4,7 +4,7 @@ Web Page: None.
 
 A faster method for users to create FTP accounts in a pre-existing setup: it will create the folder and add the user along with send an email containing the details so it can be forwarded to the client.
 
-Requirements: Python 2.5, if you have Leopard you're good to go but if you're running Tiger you'll want to install it via say [MacPorts](http://macports.org), Xcode to build the client application.
+Requirements: Python 2.5+ (untested with Python 3.x), if you have Leopard or Snow Leopard you're good to go but if you're running Tiger you'll want to install it via say [MacPorts](http://macports.org), Xcode to build the client application.
 
 -------------
 
@@ -12,7 +12,9 @@ Requirements: Python 2.5, if you have Leopard you're good to go but if you're ru
 
 The client side application needs to be built within Xcode after modifying line 15 in createFTP.m with the URL of where your ftp.php application will live.
 
-The server side contains two scripts and a web page that should all be placed in an "accessible" location. I recommend placing it in a seperate folder that you are willing to lock down using .htaccess, Apache Realms or even just an internal site so that it's not wide open to the public. It's really not designed to be secure on it's own but that the admin installing it will secure it's access if necessary.
+The server side contains two scripts and a web page that should all be placed in an "accessible" location. I recommend placing it in a separate folder that you are willing to lock down using .htaccess, Apache Realms or even just an internal site so that it's not wide open to the public. It's really not designed to be secure on it's own but that the admin installing it will secure it's access if necessary.
+
+In Rumpus you'll need to edit your `Rumpus.conf` file in `/usr/local/Rumpus` and add the line `UserDBReload URL "reloadUserDB"` (you may change reloadUserDB to any other string - just ensure that you change the appropriate line in the Python script)
 
 You will need to edit checkUser.php (line 6), ftp.php (lines 31, 46, 50), rumpusAddUser.py (anyhwere #CHANGE NEXT LINE is seen - roughly 7 places) - this is just values for your specific installation - eg. paths, your domain, etc. Ensure that rumpusAddUser.py has executable priveleges by your www user, and your area where you make folders has the ability for the www user (or whichever user you have Apache running under) has the ability to make folders. (eg. ACL for making folders or lenient permissions).
 
@@ -32,7 +34,7 @@ You will need to edit checkUser.php (line 6), ftp.php (lines 31, 46, 50), rumpus
 
 The MIT License
 
-Copyright (c) 2009 Micheal Jones
+Copyright (c) 2010 Micheal Jones
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
