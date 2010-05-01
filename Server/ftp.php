@@ -2,12 +2,13 @@
 
 /*
 FTP Creation Page
-(c) 2009 Micheal Jones
-Version 1.0.4
+(c) 2010 Micheal Jones
+Version 1.0.5
 
 Version History
 ======
 
+1.0.5 - Add links to open folder and website
 1.0.4 - Add version display
 1.0.3 - Deal with issue of clicking button and it not going forward.
 		Add feedback in case the click is not on the button itself.
@@ -16,7 +17,7 @@ Version History
 1.0.1 - Fix empty username returning a "username exists" error.
 1.0 - Initial Release
 */
-$version = "1.0.4";
+$version = "1.0.5";
 
 //If this has been submitted:
 if(isset($_POST["submission"])) {
@@ -24,18 +25,18 @@ if(isset($_POST["submission"])) {
 	$output = "";
 	$return = 0;
 	
-	// **** CHANGE
-	$cmd = "/PATH/TO/python2.5 /PATH/TO/rumpusAddUser.py \"" . $_POST["emailAddress"] . "\" \"" . $_POST["username"] . "\" \" " . $_POST["password"] . "\"";
+	$cmd = '/PATH/TO/python2.5 /PATH/TO/rumpusAddUser.py \'' . $_POST['emailAddress'] . '\' \'' . $_POST['username'] . '\' \'' . $_POST['password'] . '\'';
 	exec($cmd, &$output, &$return);
 	
 	//Split $output into pieces:
 	$createdUsername = $output[0];
 	$createdPassword = $output[1];
 	$createdAFPURL = $output[3];
+	$createdLoginLink = $output[4];
 }
 
-if(isset($_GET["username"]))
-	$username = $_GET["username"];
+if(isset($_GET['username']))
+	$username = $_GET['username'];
 else
 	$username = "";
 
@@ -48,7 +49,6 @@ function rumpusVersion() {
 	exec($cmd, $rumpusVersion);
 	return $rumpusVersion[0];
 }
-
 ?>
 
 <html>
@@ -167,12 +167,12 @@ function rumpusVersion() {
 		</script>
 		<style type="text/css">
 			body {
-				height: 480px;
-				width: 640px;
-				padding:0;
-				margin:0;
-				font-family: "Segoe UI", "Candara", serif;
-				overflow-x: hidden;
+					height: 480px;
+					width: 640px;
+					padding:0;
+					margin:0;
+					font-family: "Segoe UI", "Candara", serif;
+					overflow-x: hidden;
 			}
 			#box { 	border: 3px double #000;
 					background: #ddd;
@@ -252,7 +252,7 @@ function rumpusVersion() {
 					padding: 0;
 			}
 			#AFPURL {
-					display: none;
+					text-align: center;
 			}
 		</style>
 	</head>
@@ -276,7 +276,7 @@ function rumpusVersion() {
 			
 			if(isset($_POST["submission"])) {
 				if(isset($output)) {
-					$details = '<pre>Username: ' . $createdUsername . "\nPassword: " . $createdPassword . "\n" . '</pre><br /><div id="AFPURL">' . $createdAFPURL . '</div>';
+					$details = '<pre>Username: ' . $createdUsername . "\nPassword: " . $createdPassword . "\n" . '</pre><div id="AFPURL"><a href="' . $createdAFPURL . '">Open Folder</a> :: <a href="' . $createdLoginLink . '">Open Website</a></div>';
 				}
 				
 				echo '<div id="infoBox"><p>Created! Please check your email for the username and password details.</p>' , $details , '</div>';
@@ -321,8 +321,7 @@ function rumpusVersion() {
 				</table>
 			</form>
 			<div id="copyright">
-				<!-- bug: Needs to open in Safari, target="_new" prevents app from screwing up. -->
-				&copy; 2009 - Version 1.0.0<span class="small">(<?php echo rumpusVersion() . " " . $version ?>)</span>
+				&copy; 2009 - Version <a href="http://wiki.joemedia.tv/doku.php?id=create_ftp_user.app#version_history">1.0.3</a> <span class="small">(<?php echo rumpusVersion() . " " . $version ?>)</span>
 			</div>
 		</div>
 	</body>
